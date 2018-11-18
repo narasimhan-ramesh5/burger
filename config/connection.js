@@ -8,14 +8,21 @@ var mysql = require('mysql');
 
 require('dotenv').config();
 
-/* Connection parameters, imported from environment variables */
-var connection = mysql.createConnection({
-	host: process.env.HOST,
-	port: parseInt(process.env.DATABASE_PORT),
-	user: process.env.DATABASE_USER,
-	password: process.env.DATABASE_PASS,
-	database: process.env.DATABASE_NAME
-});
+var connection;
+
+if(process.env.JAWSDB_URL){
+	connection = mysql.createConnection(process.env.JAWSDB_URL);
+}else{
+	/* Connection parameters, imported from environment variables */
+	connection = mysql.createConnection({
+		host: process.env.HOST,
+		port: parseInt(process.env.DATABASE_PORT),
+		user: process.env.DATABASE_USER,
+		password: process.env.DATABASE_PASS,
+		database: process.env.DATABASE_NAME
+	});
+}
+
 
 connection.connect(function(err) {
   if (err) {
